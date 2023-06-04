@@ -18,6 +18,11 @@ async function simplifyTextWithGPT(selectedRange, selectionText) {
     ];
     messageArray.push({ role: "user", "content": selectionText });
 
+    // Token is roughly 4 letters, so this means that the
+    // response should be at most roughly twich the length
+    // of the input
+    let max_tokens = selectionText.length/2
+
     // TODO
     let apiKey = await new Promise(resolve => chrome.storage.local.get(['apiKey'], result => resolve(result.apiKey)));
     try {
@@ -30,7 +35,10 @@ async function simplifyTextWithGPT(selectedRange, selectionText) {
             },
             body: JSON.stringify({
                 "model": "gpt-3.5-turbo",
-                "messages": messageArray
+                "messages": messageArray,
+                "temperature": 0, // Randomness of responses
+                "max_tokens": max_tokens,
+                "user": "Shorter Path"
             })
         });
 
