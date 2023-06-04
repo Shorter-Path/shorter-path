@@ -23,7 +23,6 @@ async function simplifyTextWithGPT(selectedRange, selectionText) {
     // of the input
     let max_tokens = selectionText.length/2
 
-    // TODO
     let apiKey = await new Promise(resolve => chrome.storage.local.get(['apiKey'], result => resolve(result.apiKey)));
     try {
         // send the request containing the messages to the OpenAI API
@@ -54,16 +53,10 @@ async function simplifyTextWithGPT(selectedRange, selectionText) {
         if (data && data.choices && data.choices.length > 0) {
             // get the answer from the API response
             let response = data.choices[0].message.content;
-            let parsedResponse = parseGPTResponse(response);
-            
-            replaceSelectedText(selectedRange, parsedResponse.textToReplace)
+            replaceSelectedText(selectedRange, response)
         }
     } catch (error) {
         // send error message back to the content script
         alert("No answer Received: Make sure the entered API-Key is correct.");
     }
-}
-
-function parseGPTResponse(response) {
-    return {"textToReplace": response}
 }
