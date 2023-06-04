@@ -9,11 +9,25 @@ chrome.runtime.onMessage.addListener(function (request) {
 });
 
 function simplify(selectionText) {
-    simplifyTextWithGPT(selectionText)
-    replaceSelectedText("test")
+    let selectedRange = grabSelecedRange();
+    if (selectedRange == null) {
+        console.log("There was an issue with grabbing the selected element")
+    }
+    simplifyTextWithGPT(selectedRange, selectionText);
+
 }
 
-function replaceSelectedText(replacementText) {
+function grabSelecedRange() {
+    if (window.getSelection) {
+        var sel = window.getSelection();
+        if (sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            return range
+        }
+    }
+}
+
+function replaceSelectedText(range, replacementText) {
     /**
      * Grabs the currently selected text and replaces
      * it with whatever in inputed.
@@ -22,18 +36,9 @@ function replaceSelectedText(replacementText) {
      * 
      * @since 0.0.1
      * 
+     * @param 
      * @param {string} replacementText Text to be replaced.
      */
-    var sel, range;
-    if (window.getSelection) {
-        sel = window.getSelection();
-        if (sel.rangeCount) {
-            range = sel.getRangeAt(0);
-            range.deleteContents();
-            range.insertNode(document.createTextNode(replacementText));
-        }
-    } else if (document.selection && document.selection.createRange) {
-        range = document.selection.createRange();
-        range.text = replacementText;
-    }
+    range.deleteContents();
+    range.insertNode(document.createTextNode(replacementText));
 }
