@@ -2,7 +2,7 @@ chrome.runtime.onMessage.addListener(function (request) {
     switch (request.menuItemId) {
         case "simplify-with-GPT":
             simplify(request.selectionText);
-            break;
+            return true;
         default:
             console.log(`Menu Item ${request.menuItemId} not recognized`)
     }
