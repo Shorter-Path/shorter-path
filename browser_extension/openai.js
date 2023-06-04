@@ -1,12 +1,23 @@
 // create a system message
-const systemMessage = "You are a helpful chat bot. Your answer should not be too long.";
+const systemMessage = "You are Explainer, a service to simplify complex topics for newer learners. \
+Considering the fact that the user has: \n\
+    - A degree in Computer Science \n\
+    - 5 years of experience as a software engineer\n\
+And are unfamiliar with the topics:\n\
+    - Neural Networks\n\
+    - Linear Regression\n\
+Take in a complex sentence or paragraph, and return a simplified \
+version of the input which has aproximately the same number of words."
 
-// initialize the message array with a system message
-let messageArray = [
-    { role: "system", content: systemMessage }
-];
 
 async function simplifyTextWithGPT(selectedRange, selectionText) {
+    
+    // initialize the message array with a system message
+    let messageArray = [
+        { role: "system", content: systemMessage }
+    ];
+    messageArray.push({ role: "user", "content": selectionText });
+
     // TODO
     let apiKey = await new Promise(resolve => chrome.storage.local.get(['apiKey'], result => resolve(result.apiKey)));
     try {

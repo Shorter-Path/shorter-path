@@ -17,7 +17,8 @@
         "*://*/*"
       ],
       "js": [
-        "content.js"
+        "content.js",
+        "openai.js"
       ],
       "all_frames": false
     }
