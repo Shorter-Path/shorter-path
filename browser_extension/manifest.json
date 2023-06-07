@@ -3,7 +3,7 @@
   "name": "Shorter Path",
   "version": "0.0.1",
   "description": "Simplify and explain text on the web.",
-  "permissions": ["contextMenus"],
+  "permissions": ["contextMenus", "storage"],
   "host_permissions":[
     "https://*/*", 
     "http://*/*" 
@@ -17,9 +17,13 @@
         "*://*/*"
       ],
       "js": [
-        "content.js"
+        "content.js",
+        "openai.js"
       ],
-      "all_frames": true
+      "all_frames": false
     }
-  ]
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
 }
