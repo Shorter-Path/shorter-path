@@ -21,7 +21,7 @@ async function simplifyTextWithGPT(selectedRange, selectionText) {
     // Token is roughly 4 letters, so this means that the
     // response should be at most roughly twich the length
     // of the input
-    let max_tokens = selectionText.length/2
+    let max_tokens = Math.ceil(selectionText.length/2)
 
     let apiKey = await new Promise(resolve => chrome.storage.local.get(['apiKey'], result => resolve(result.apiKey)));
     try {
